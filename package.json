@@ -1,13 +1,14 @@
 {
   "dependencies": {
-    "express": "^4.19.2",
-    "mqtt": "^5.6.1"
+    "mqtt": "^5.6.1",
+    "nodemon": "^3.1.0",
+    "socket.io": "^4.7.5"
   },
   "name": "lab5-6",
   "version": "1.0.0",
   "main": "mqtt.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon mqtt"
   },
   "keywords": [],
   "author": "",
