@@ -1,23 +1,28 @@
 const mqtt = require('mqtt')
 const client = mqtt.connect("mqtt://mqtt.flespi.io", {
-    username: "vpdVaZMnkABMEcrImDpTg8aT8Yk5yPrrn84hFOGgFtFQADWuwH3e9dsm8anbPEAb",
+    username: "Ao9Iur1nAlajwdAfwNYOt1MueZgQZBp5n0KFrfSf67pDFFMjdgHILSY7WS1OtWbl",
 });
 
 client.on("connect", () => {
   console.log("mqtt connected");
 });
 
-client.subscribe('/subscribe');
+client.subscribe('/sensor/dht22');
 
 client.on('message', (topic, message) => {
   console.log(`Received message on topic ${topic}: ${message}`);
-  if(topic == "/sensor/temp"){
-    //write to database temp
-    
-  }
-  else if(topic == "/sensor/humidity"){
-    //write to database humidity
+   data = message.toString();
 
-  }
+  // Sử dụng URLSearchParams để phân tích chuỗi truy vấn
+  const params = new URLSearchParams(data);
+
+  // Lấy giá trị nhiệt độ và độ ẩm
+  const temperature = parseFloat(params.get('temperature'));
+  const humidity = parseFloat(params.get('humidity'));
+
+  // In kết quả
+  console.log(`Temperature: ${temperature}`);
+  console.log(`Humidity: ${humidity}`);
+
 });
 
