@@ -6,6 +6,6 @@ io.on("connection", (socket) => {
   console.log(`${socket.id} connected`);
 });
 
-module.exports = (event, data) => {
+module.exports.socketBroadcast = (event, data) => {
   io.emit(event, data);
 }
