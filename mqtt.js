@@ -13,7 +13,7 @@ client.subscribe('/sensor/dht22');
 
 client.on('message', (topic, message) => {
   console.log(`Received message on topic ${topic}: ${message}`);
-   data = message.toString();
+  const data = message.toString();
 
   // Sử dụng URLSearchParams để phân tích chuỗi truy vấn
   const params = new URLSearchParams(data);
