@@ -26,6 +26,9 @@ client.on('message', (topic, message) => {
   // create and insert new data to database, auto mark time
   tempAndHumiModel.create({ temperature, humidity });
 
+  // send data to frontend
+  socketBroadcast("data", { temperature, humidity });
+  
   // In kết quả
   console.log(`Temperature: ${temperature}`);
   console.log(`Humidity: ${humidity}`);
