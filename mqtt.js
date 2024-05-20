@@ -2,7 +2,7 @@ const mqtt = require('mqtt')
 const { socketBroadcast } = require('./socket')
 
 const client = mqtt.connect("mqtt://mqtt.flespi.io", {
-    username: "Ao9Iur1nAlajwdAfwNYOt1MueZgQZBp5n0KFrfSf67pDFFMjdgHILSY7WS1OtWbl",
+    username: "XQ451T4HH2djXBkDywkTRfWpDjfQlbeyaFinUbVdbhDN3WUaJkcjb20wLSr57VXU",
 });
 
 client.on("connect", () => {
