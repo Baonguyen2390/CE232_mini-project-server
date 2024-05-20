@@ -12,7 +12,7 @@ client.on("connect", () => {
 
 client.subscribe('/sensor/dht22');
 
-client.on('message', (topic, message) => {
+client.on('message', async (topic, message) => {
   console.log(`Received message on topic ${topic}: ${message}`);
   const data = message.toString();
 
@@ -24,11 +24,11 @@ client.on('message', (topic, message) => {
   const humidity = parseFloat(params.get('humidity'));
 
   // create and insert new data to database, auto mark time
-  tempAndHumiModel.create({ temperature, humidity });
+  tempAndHumi = await tempAndHumiModel.create({ temperature, humidity });
 
   // send data to frontend
-  socketBroadcast("data", { temperature, humidity });
-  
+  socketBroadcast("data", tempAndHumi);
+
   // In kết quả
   console.log(`Temperature: ${temperature}`);
   console.log(`Humidity: ${humidity}`);

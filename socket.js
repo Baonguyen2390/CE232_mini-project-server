@@ -1,7 +1,7 @@
 const { Server } = require("socket.io");
 const { tempAndHumiModel } = require('./mongo')
 
-const io = new Server(3000, { /* options */ });
+const io = new Server(4000, { /* options */ });
 
 io.on("connection", async (socket) => {
   console.log(`${socket.id} connected`);

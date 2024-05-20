@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const url = 'mongodb+srv://21522390:Baonguyenmongodb2012@cluster0.zgjlcaq.mongodb.net/sensor';
+const url = 'mongodb+srv://ngocrc:ndJ45DHQS37SeUm9@atlascluster.hks9agm.mongodb.net/CE232_mini_project?retryWrites=true&w=majority';
 
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 
