@@ -1,5 +1,6 @@
 const mqtt = require('mqtt')
 const { socketBroadcast } = require('./socket')
+const { tempAndHumiModel } = require('./mongo')
 
 const client = mqtt.connect("mqtt://mqtt.flespi.io", {
     username: "XQ451T4HH2djXBkDywkTRfWpDjfQlbeyaFinUbVdbhDN3WUaJkcjb20wLSr57VXU",
@@ -21,6 +22,9 @@ client.on('message', (topic, message) => {
   // Lấy giá trị nhiệt độ và độ ẩm
   const temperature = parseFloat(params.get('temperature'));
   const humidity = parseFloat(params.get('humidity'));
+
+  // create and insert new data to database, auto mark time
+  tempAndHumiModel.create({ temperature, humidity });
 
   // In kết quả
   console.log(`Temperature: ${temperature}`);
