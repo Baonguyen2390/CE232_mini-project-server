@@ -1,5 +1,5 @@
 const { Server } = require("socket.io");
-const { tempAndHumiModel } = require('./mongo')
+const { db } = require('./mongo')
 
 const io = new Server(4000, { /* options */ });
 
@@ -7,7 +7,8 @@ io.on("connection", async (socket) => {
   console.log(`${socket.id} connected`);
 
   // find all record
-  const data = await tempAndHumiModel.find({});
+  const data = await db.collection('TempAndHumi').find().toArray();
+  console.log(data);
   
   socket.emit("initialize", data);
 });

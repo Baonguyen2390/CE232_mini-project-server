@@ -10,12 +10,4 @@ db.once('open', () => {
   console.log('Kết nối thành công với MongoDB!');
 });
 
-// const tempAndHumiSchema = new mongoose.Schema({
-//   temperature : Number,
-//   humidity : Number,
-// }, {timestamps: true});
-
-
-// const tempAndHumiModel = mongoose.model("TempAndHumi", tempAndHumiSchema);
-
 module.exports = { db }

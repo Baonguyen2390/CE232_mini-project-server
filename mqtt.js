@@ -9,17 +9,8 @@ const client = mqtt.connect("mqtt://mqtt.flespi.io", {
 client.on("connect", () => {
   console.log("mqtt connected");
 });
-// client.on("connect", () => {
-//   client.subscribe("presence", (err) => {
-//     if (!err) {
-//       client.publish("presence", "Hello mqtt");
-//       console.log("mqtt pp");
 
-//     }
-//   });
-// });
 client.subscribe('/sensor/dht22');
-client.message
 client.on('message', async (topic, message) => {
   try {
     console.log(`Received message on topic ${topic}: ${message}`);
@@ -31,21 +22,17 @@ client.on('message', async (topic, message) => {
     // Lấy giá trị nhiệt độ và độ ẩm
     const temperature = parseFloat(params.get('temperature'));
     const humidity = parseFloat(params.get('humidity'));
-    let time = new Date().getTime();
-    
-    // create and insert new data to database, auto mark time
-    //tempAndHumi = await tempAndHumiModel.create({ temperature, humidity });
-
+    let time = new Date();
    
+    db.collection('TempAndHumi').insertOne({temperature, humidity, time});
+
+    socketBroadcast("data", {temperature, humidity, time});
+
     console.log(`Temperature: ${temperature}`);
     console.log(`Humidity: ${humidity}`);
     console.log(`time: ${time}`);
-    db.collection('TempAndHumi').insertOne({'temp':temperature, 'hum':humidity, 'time':new Date(time).toISOString()});
-
-} catch (error) {
+  } catch (error) {
     console.error(error)
-}
-  
-
+  }
 });
 
