@@ -1,21 +1,51 @@
-const mongoose = require('mongoose');
-const url = 'mongodb+srv://baotungh:pU6p3nrN4SlTw8ru@nan.iiqx50a.mongodb.net/temp';
+const mqtt = require('mqtt')
+const { socketBroadcast } = require('./socket')
+const { db } = require('./mongo')
 
-mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
-
-const db = mongoose.connection;
-
-db.on('error', console.error.bind(console, 'MongoDB connection error:'));
-db.once('open', () => {
-  console.log('Kết nối thành công với MongoDB!');
+const client = mqtt.connect("mqtt://mqtt.flespi.io", {
+    username: "BxT1pM1l2lJaExcxJm6TiSs37y1j4C1AiUIQAK2bJw84Gc4JcNgfDZ32lnlOrt66",
 });
 
-// const tempAndHumiSchema = new mongoose.Schema({
-//   temperature : Number,
-//   humidity : Number,
-// }, {timestamps: true});
+client.on("connect", () => {
+  console.log("mqtt connected");
+});
+// client.on("connect", () => {
+//   client.subscribe("presence", (err) => {
+//     if (!err) {
+//       client.publish("presence", "Hello mqtt");
+//       console.log("mqtt pp");
 
+//     }
+//   });
+// });
+client.subscribe('/sensor/dht22');
+client.message
+client.on('message', async (topic, message) => {
+  try {
+    console.log(`Received message on topic ${topic}: ${message}`);
+    const data = message.toString();
+    console.log(data);
+    // Sử dụng URLSearchParams để phân tích chuỗi truy vấn
+    const params = new URLSearchParams(data);
 
-// const tempAndHumiModel = mongoose.model("TempAndHumi", tempAndHumiSchema);
+    // Lấy giá trị nhiệt độ và độ ẩm
+    const temperature = parseFloat(params.get('temperature'));
+    const humidity = parseFloat(params.get('humidity'));
+    let time = new Date().getTime();
+    
+    // create and insert new data to database, auto mark time
+    //tempAndHumi = await tempAndHumiModel.create({ temperature, humidity });
 
-module.exports = { db }
+   
+    console.log(`Temperature: ${temperature}`);
+    console.log(`Humidity: ${humidity}`);
+    console.log(`time: ${time}`);
+    db.collection('TempAndHumi').insertOne({'temp':temperature, 'hum':humidity, 'time':new Date(time).toISOString()});
+
+} catch (error) {
+    console.error(error)
+}
+  
+
+});
+
