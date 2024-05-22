@@ -1,37 +1,21 @@
-const mqtt = require('mqtt')
-const { socketBroadcast } = require('./socket')
-const { tempAndHumiModel } = require('./mongo')
+const mongoose = require('mongoose');
+const url = 'mongodb+srv://baotungh:pU6p3nrN4SlTw8ru@nan.iiqx50a.mongodb.net/temp';
 
-const client = mqtt.connect("mqtt://mqtt.flespi.io", {
-    username: "XQ451T4HH2djXBkDywkTRfWpDjfQlbeyaFinUbVdbhDN3WUaJkcjb20wLSr57VXU",
+mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
+
+const db = mongoose.connection;
+
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.once('open', () => {
+  console.log('Kết nối thành công với MongoDB!');
 });
 
-client.on("connect", () => {
-  console.log("mqtt connected");
-});
+// const tempAndHumiSchema = new mongoose.Schema({
+//   temperature : Number,
+//   humidity : Number,
+// }, {timestamps: true});
 
-client.subscribe('/sensor/dht22');
 
-client.on('message', async (topic, message) => {
-  console.log(`Received message on topic ${topic}: ${message}`);
-  const data = message.toString();
+// const tempAndHumiModel = mongoose.model("TempAndHumi", tempAndHumiSchema);
 
-  // Sử dụng URLSearchParams để phân tích chuỗi truy vấn
-  const params = new URLSearchParams(data);
-
-  // Lấy giá trị nhiệt độ và độ ẩm
-  const temperature = parseFloat(params.get('temperature'));
-  const humidity = parseFloat(params.get('humidity'));
-
-  // create and insert new data to database, auto mark time
-  tempAndHumi = await tempAndHumiModel.create({ temperature, humidity });
-
-  // send data to frontend
-  socketBroadcast("data", tempAndHumi);
-
-  // In kết quả
-  console.log(`Temperature: ${temperature}`);
-  console.log(`Humidity: ${humidity}`);
-
-});
-
+module.exports = { db }

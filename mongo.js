@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const url = 'mongodb+srv://ngocrc:ndJ45DHQS37SeUm9@atlascluster.hks9agm.mongodb.net/CE232_mini_project?retryWrites=true&w=majority';
+const url = 'mongodb+srv://baotungh:pU6p3nrN4SlTw8ru@nan.iiqx50a.mongodb.net/temp';
 
 mongoose.connect(url, { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -10,11 +10,12 @@ db.once('open', () => {
   console.log('Kết nối thành công với MongoDB!');
 });
 
-const tempAndHumiSchema = new mongoose.Schema({
-  temperature : Number,
-  humidity : Number,
-}, {timestamps: true});
+// const tempAndHumiSchema = new mongoose.Schema({
+//   temperature : Number,
+//   humidity : Number,
+// }, {timestamps: true});
 
-const tempAndHumiModel = mongoose.model("TempAndHumi", tempAndHumiSchema);
 
-module.exports = { tempAndHumiModel }
+// const tempAndHumiModel = mongoose.model("TempAndHumi", tempAndHumiSchema);
+
+module.exports = { db }
