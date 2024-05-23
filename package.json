@@ -10,7 +10,7 @@
   "version": "1.0.0",
   "main": "mqtt.js",
   "scripts": {
-    "dev": "nodemon mqtt"
+    "dev": "nodemon main"
   },
   "keywords": [],
   "author": "",
