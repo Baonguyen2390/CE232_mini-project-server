@@ -11,7 +11,6 @@ module.exports.socketInit = async () => {
   
     // find all record
     const data = await db.collection('TempAndHumi').find().toArray();
-    console.log(data);
     
     socket.emit("initialize", data);
   });
